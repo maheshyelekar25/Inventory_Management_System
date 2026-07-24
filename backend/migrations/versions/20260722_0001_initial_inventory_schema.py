@@ -58,8 +58,14 @@ def upgrade() -> None:
     op.create_index("ix_products_category_id", "products", ["category_id"], unique=False)
     op.create_index("ix_products_name", "products", ["name"], unique=False)
     op.create_index("ix_products_sku", "products", ["sku"], unique=False)
-    movement_type = postgresql.ENUM("IN", "OUT", name="movement_type")
+        movement_type = postgresql.ENUM(
+        "IN",
+        "OUT",
+        name="movement_type",
+        create_type=False,
+    )
     movement_type.create(op.get_bind(), checkfirst=True)
+
     op.create_table(
         "stock_movements",
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
