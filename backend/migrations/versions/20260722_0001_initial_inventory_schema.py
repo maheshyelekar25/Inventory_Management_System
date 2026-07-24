@@ -28,6 +28,7 @@ def upgrade() -> None:
         sa.UniqueConstraint("email"),
     )
     op.create_index("ix_users_email", "users", ["email"], unique=False)
+
     op.create_table(
         "categories",
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
@@ -38,6 +39,7 @@ def upgrade() -> None:
         sa.UniqueConstraint("name"),
     )
     op.create_index("ix_categories_name", "categories", ["name"], unique=False)
+
     op.create_table(
         "products",
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
@@ -58,7 +60,8 @@ def upgrade() -> None:
     op.create_index("ix_products_category_id", "products", ["category_id"], unique=False)
     op.create_index("ix_products_name", "products", ["name"], unique=False)
     op.create_index("ix_products_sku", "products", ["sku"], unique=False)
-        movement_type = postgresql.ENUM(
+
+    movement_type = postgresql.ENUM(
         "IN",
         "OUT",
         name="movement_type",
@@ -86,12 +89,20 @@ def upgrade() -> None:
 def downgrade() -> None:
     op.drop_index("ix_stock_movements_product_id", table_name="stock_movements")
     op.drop_table("stock_movements")
-    postgresql.ENUM(name="movement_type").drop(op.get_bind(), checkfirst=True)
+
+    postgresql.ENUM(
+        "IN",
+        "OUT",
+        name="movement_type",
+    ).drop(op.get_bind(), checkfirst=True)
+
     op.drop_index("ix_products_sku", table_name="products")
     op.drop_index("ix_products_name", table_name="products")
     op.drop_index("ix_products_category_id", table_name="products")
     op.drop_table("products")
+
     op.drop_index("ix_categories_name", table_name="categories")
     op.drop_table("categories")
+
     op.drop_index("ix_users_email", table_name="users")
     op.drop_table("users")
