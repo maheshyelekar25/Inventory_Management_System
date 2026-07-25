@@ -26,6 +26,12 @@ export interface CategoryPayload {
   description?: string | null
 }
 
+export interface StockUpdatePayload {
+  quantity: number
+  movement_type: 'IN' | 'OUT'
+  reason: string
+}
+
 export async function getDashboardStatistics() {
   const response = await apiClient.get<DashboardStatistics>('/dashboard/statistics', { params: { low_stock_limit: 5 } })
   return response.data
@@ -67,4 +73,9 @@ export async function updateCategory(categoryId: string, payload: CategoryPayloa
 
 export async function deleteCategory(categoryId: string) {
   await apiClient.delete(`/categories/${categoryId}`)
+}
+
+export async function updateStock(productId: string, payload: StockUpdatePayload) {
+  const response = await apiClient.post(`/products/${productId}/stock`, payload)
+  return response.data
 }
