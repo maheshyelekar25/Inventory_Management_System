@@ -21,6 +21,11 @@ export interface ProductCreatePayload extends ProductPayload {
   quantity: number
 }
 
+export interface CategoryPayload {
+  name: string
+  description?: string | null
+}
+
 export async function getDashboardStatistics() {
   const response = await apiClient.get<DashboardStatistics>('/dashboard/statistics', { params: { low_stock_limit: 5 } })
   return response.data
@@ -48,4 +53,18 @@ export async function deleteProduct(productId: string) {
 export async function getCategories(params: { page?: number; page_size?: number; search?: string } = {}) {
   const response = await apiClient.get<Page<Category>>('/categories', { params })
   return response.data
+}
+
+export async function createCategory(payload: CategoryPayload) {
+  const response = await apiClient.post<Category>('/categories', payload)
+  return response.data
+}
+
+export async function updateCategory(categoryId: string, payload: CategoryPayload) {
+  const response = await apiClient.patch<Category>(`/categories/${categoryId}`, payload)
+  return response.data
+}
+
+export async function deleteCategory(categoryId: string) {
+  await apiClient.delete(`/categories/${categoryId}`)
 }
