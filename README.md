@@ -52,3 +52,7 @@ backend\.venv\Scripts\python -m pytest tests/test_api_integration.py -q
 - Product mutations refresh the product list and notify the dashboard to reload its statistics and tables.
 
 See [deployment documentation](docs/deployment.md) for production environment settings and deployment guidance.
+
+credentials with Added Data:
+Email: Qwerty@mail.com
+Password: Qwerty@mail.com1
