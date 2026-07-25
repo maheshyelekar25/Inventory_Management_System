@@ -28,7 +28,7 @@ export function ProductForm({ product, categories, isSaving, onSubmit, onCancel 
     reset(product ? { name: product.name, sku: product.sku, category_id: product.category_id, price: Number(product.price), quantity: product.quantity, low_stock_threshold: product.low_stock_threshold } : defaults)
   }, [product, reset])
 
-  return <form onSubmit={handleSubmit(onSubmit)} noValidate><div className="grid gap-4 p-5 sm:grid-cols-2"><Field label="Product name" error={errors.name?.message}><input {...register('name')} autoFocus className={inputClass} aria-invalid={Boolean(errors.name)} /></Field><Field label="SKU (e.g. MOU-LOG-001)" error={errors.sku?.message}>
+  return <form onSubmit={handleSubmit(onSubmit)} noValidate><div className="grid gap-4 p-5 sm:grid-cols-2"><Field label="Product name" error={errors.name?.message}><input {...register('name')} autoFocus className={inputClass} aria-invalid={Boolean(errors.name)} /></Field><Field label="SKU" error={errors.sku?.message}>
   <input
     {...register('sku')}
     placeholder="e.g. MOU-LOG-001"
